@@ -90,7 +90,7 @@ Status codes: `400` validation, `401` not logged in or bad credentials, `403` no
 ```bash
 ./mvnw test
 ```
-11 tests: stock rules (unit) and the API end to end with MockMvc (auth, roles, validation, duplicates, pagination, stock movements).
+13 tests: stock rules (unit), the API end to end with MockMvc (auth, roles, validation, duplicates, pagination, stock movements), and two tests against a real embedded server for 401/403 behaviour.
 
 ## Design notes
 - Business rules live in services and the `Product` entity; controllers stay thin.

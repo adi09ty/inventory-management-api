@@ -24,7 +24,8 @@ public class SecurityConfig {
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .authorizeHttpRequests(a -> a
                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/actuator/health").permitAll()
+                // Spring forwards failures to /error; without this a 403 turns into a 401
+                .requestMatchers("/error").permitAll()
                 // reads and stock adjustments: any logged-in user
                 .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/products/*/stock").authenticated()
