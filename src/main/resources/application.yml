@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: inventory-management-api
+  # Default profile: in-memory H2, zero setup. Use the "mysql" profile for a real database.
+  datasource:
+    url: jdbc:h2:mem:inventory;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+app:
+  jwt:
+    # Local-only default. The mysql profile requires APP_JWT_SECRET (32+ characters).
+    secret: ${APP_JWT_SECRET:local-dev-only-secret-local-dev-only-secret-0123}
+    expiration-minutes: 60
+  seed:
+    admin-username: ${APP_ADMIN_USER:admin}
+    admin-password: ${APP_ADMIN_PASSWORD:admin12345}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    # No defaults on purpose: the app refuses to start without these.
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET}
+  seed:
+    admin-password: ${APP_ADMIN_PASSWORD}
